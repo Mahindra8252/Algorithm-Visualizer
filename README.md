@@ -1,4 +1,5 @@
 🔍 Algorithm Visualizer
+
 Algorithm Visualizer is an interactive platform designed to help you understand and visualize sorting and searching algorithms effortlessly. 🚀
 
 
