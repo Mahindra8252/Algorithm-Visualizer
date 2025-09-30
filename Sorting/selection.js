@@ -2,8 +2,21 @@ var beep = new Audio('beep3.mp3')
 var mouseclick = new Audio('Mouseclick.mp3')
 var done = new Audio('wrong.mp3')
 
+
+
+// 🔹 NEW: restore original array before sorting
+function resetBars() {
+    const bars = document.querySelectorAll('.bar');
+    bars.forEach((bar, i) => {
+        bar.style.height = `${originalArray[i]}px`;
+        bar.style.background = 'cyan'; // reset colors
+    });
+}
 const SelectionSortButton = document.querySelector(".SelectionSort");
 SelectionSortButton.addEventListener('click', async function () {
+
+       resetBars();
+
     // headingchange1.textContent = "Selection Sort";
     selectText.innerHTML = `Selection Sort..`
     mouseclick.play()
@@ -19,8 +32,8 @@ SelectionSortButton.addEventListener('click', async function () {
     disableNewArrayBtn();
 
     await SelectionSort();
-    // enableSortingBtn();
-    // enableSizeSlider();
+    enableSortingBtn();
+    enableSizeSlider();
     enableNewArrayBtn();
 });
 
@@ -35,8 +48,6 @@ async function descriptionText_selection() {
     // console.log(code.innerHTML)
     code.innerText = `// C++ program for implementation of 
 // selection sort 
-#include <bits/stdc++.h> 
-using namespace std; 
 
 //Swap function 
 void swap(int *xp, int *yp) 
@@ -66,29 +77,7 @@ void selectionSort(int arr[], int n)
 		// with the first element 
 		swap(&arr[min_idx], &arr[i]); 
 	} 
-} 
-
-//Function to print an array 
-void printArray(int arr[], int size) 
-{ 
-	int i; 
-	for (i=0; i < size; i++) 
-		cout << arr[i] << " "; 
-	cout << endl; 
-} 
-
-// Driver program to test above functions 
-int main() 
-{ 
-	int arr[] = {64, 25, 12, 22, 11}; 
-	int n = sizeof(arr)/sizeof(arr[0]); 
-	selectionSort(arr, n); 
-	cout << "Sorted array: "; 
-	printArray(arr, n); 
-	return 0; 
-} 
-
-    
+}   
     
 `
     const time = document.querySelector('#time')
@@ -106,16 +95,6 @@ The selection sort never makes more than O(N) swaps and can be useful when memor
 
 
 }
-
-
-
-
-
-
-
-
-
-
 
 async function SelectionSort() {
     const element = document.querySelectorAll(".bar");
