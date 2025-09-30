@@ -441,29 +441,31 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     align-items: flex-end;
     margin-top: 3vh;
 }
-
 .bars {
     border: 1px #212529;
-    color: #212529;
-    /* height: 43px; */
+    color: #212529;     /* dark gray, matches background */
     width: 4vw;
     background-color: rgb(255, 255, 255);
     transition: all .5s ease-in-out;
-    font-size: 2px;
+    font-size: 10px;    /* 👈 increase from 2px */
+    font-weight: bold;  /* 👈 optional, makes text clearer */
     text-align: center;
     border-radius: 5px 5px 0px 0px;
     margin: 0 2px;
 }
+
 
 .bars:hover {
     cursor: pointer;
     padding: 7px;
     width: 4.3vw !important;
     font-weight: bold;
-    font-size: 1em;
+    font-size: 16px;  /* 👈 slightly bigger, not too much */
     margin: 0 3px;
     box-shadow: -1px 4px 30px 0px rgba(255, 255, 255, 0.87);
+    transform: translateY(-20px); /* Makes the bar stand up on hover */
 }
+
 
 #buttons {
     background-color:#212529;
