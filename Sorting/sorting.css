@@ -446,18 +446,18 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     width: 4vw;
     background-color:white;
     transition: all .5s ease-in-out;
-    font-size: 1px;
+    font-size: 12px;
     text-align: center;
     border-radius: 0px 0px 8px 8px;
-    margin: 0 1px;
+    margin: 0 2px;
 }
 
 .bar:hover {
     cursor: pointer;
     padding: 7px;
     width: 4.3vw !important;
-    font-weight: bold;
-    font-size: 1em;
+    /* font-weight: bold; */
+    font-size: 15 px;
     margin: 0 3px;
     box-shadow: -1px 4px 30px 0px rgba(255, 255, 255, 0.87);
 }
