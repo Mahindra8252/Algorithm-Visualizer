@@ -6,6 +6,8 @@
 //then put it into an empty array which is a merged array and a sorted array too
 //this is the conquer step and thus we can easily do the merge sort
 
+
+
 var beep = new Audio('beep3.mp3')
 var mouseclick = new Audio('Mouseclick.mp3')
 var done = new Audio('wrong.mp3')
@@ -31,8 +33,8 @@ MergeSortButton.addEventListener('click', async function () {
    await MergeSort(element, si, ei);
    selectText.innerHTML=`Sorting Complete!`
    done.play();
-   // enableSortingBtn();
-   // enableSizeSlider();
+   enableSortingBtn();
+   enableSizeSlider();
    enableNewArrayBtn();
 
 });
@@ -49,222 +51,132 @@ async function descriptionText_merge() {
    const code = document.querySelector('.language-java')
    // console.log(code.innerHTML)
    code.innerHTML = `// C++ program for the implementation of merge sort
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-// Merges two subarrays of vec.
-// First subarray is vec[left..mid]
-// Second subarray is vec[mid+1..right]
-void merge(vector<int>& vec, int left, int mid, int right) {
-    int i, j, k;
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
-
-    // Create temporary vectors
-    vector<int> leftVec(n1), rightVec(n2);
-
-    // Copy data to temporary vectors
-    for (i = 0; i < n1; i++)
-        leftVec[i] = vec[left + i];
-    for (j = 0; j < n2; j++)
-        rightVec[j] = vec[mid + 1 + j];
-
-    // Merge the temporary vectors back into vec[left..right]
-    i = 0;
-    j = 0;
-    k = left;
-    while (i < n1 && j < n2) {
-        if (leftVec[i] <= rightVec[j]) {
-            vec[k] = leftVec[i];
-            i++;
-        } else {
-            vec[k] = rightVec[j];
-            j++;
+class Solution {
+  public:
+  
+    void merge(vector<int>&arr, int low,int mid,int heigh){
+        vector<int>temp;
+        int left=low;
+        int right=mid+1;
+        
+        while(left<=mid && right<=heigh){
+            if(arr[left]<=arr[right]){
+                temp.push_back(arr[left]);
+                left++;
+            }else{
+                temp.push_back(arr[right]);
+                right++;
+            }
         }
-        k++;
+        while(left<=mid){
+            temp.push_back(arr[left]);
+                left++;
+        }
+        while(right<=heigh){
+            temp.push_back(arr[right]);
+                right++;
+        }
+        
+        for(int i=low; i<=heigh;i++){
+            arr[i]=temp[i-low];
+        }
+        
     }
-
-    // Copy the remaining elements of leftVec[], if any
-    while (i < n1) {
-        vec[k] = leftVec[i];
-        i++;
-        k++;
+    void mergeSort(vector<int>& arr, int low, int heigh ) {
+        // code here
+        if(low>=heigh)return;
+        int mid=(low+heigh)/2;
+        mergeSort(arr,low,mid);
+        mergeSort(arr, mid+1,heigh);
+        
+        merge(arr,low,mid,heigh);
+        
     }
-
-    // Copy the remaining elements of rightVec[], if any
-    while (j < n2) {
-        vec[k] = rightVec[j];
-        j++;
-        k++;
-    }
-}
-
-// The subarray to be sorted is in the index range [left..right]
-void mergeSort(vector<int>& vec, int left, int right) {
-    if (left < right) {
-      
-        // Calculate the midpoint
-        int mid = left + (right - left) / 2;
-
-        // Sort first and second halves
-        mergeSort(vec, left, mid);
-        mergeSort(vec, mid + 1, right);
-
-        // Merge the sorted halves
-        merge(vec, left, mid, right);
-    }
-}
-
-int main() {
-    vector<int> vec = {12, 11, 13, 5, 6, 7};
-    int n = vec.size();
-
-    // Sorting vec using mergesort
-    mergeSort(vec, 0, n - 1);
-
-    for (auto i: vec)
-        cout << i << " ";
-    return 0;
-}
+};
 
 
 `
    const time = document.querySelector('#time')
-   time.innerHTML = `Time Complexity: O(N log(N)),  Sorting arrays on different machines. 
-Merge Sort is a recursive algorithm and time complexity can be expressed as following recurrence relation. 
-
-T(n) = 2T(n/2) + θ(n)
-`
+   time.innerHTML = `Time Complexity: Best: O(N log N), Average: O(N log N), Worst: O(N log N)`
 
    const space = document.querySelector('#space')
-   space.innerHTML = `Auxiliary Space: O(n), In merge sort all elements are copied into an auxiliary array. 
-So N auxiliary space is required for merge sort.`
+   space.innerHTML = `Space Complexity: O(N)`
 
 
 }
-
-
-
-
-
-
-
-
-
-//Divide
-
+// Divide
 async function MergeSort(element, si, ei) {
    if (si >= ei) {
       return;
-
    }
-   const middle = si + Math.floor((ei - si) / 2);
-   await MergeSort(element, si, middle);
-   await MergeSort(element, middle + 1, ei);
 
-   await Merge(element, si, middle, ei);          // si--> starting index and ei --> ending index
+   const mid = Math.floor((si + ei) / 2);
 
+   await MergeSort(element, si, mid);
+   await MergeSort(element, mid + 1, ei);
+
+   await Merge(element, si, mid, ei);
 }
 
-//Conquer
-
+// Conquer
 async function Merge(element, low, mid, high) {
+   let temp = [];
+   let left = low;
+   let right = mid + 1;
 
-
-   const a1 = mid - low + 1;
-   const a2 = high - mid;
-   let left = new Array(a1);
-   let right = new Array(a2);
-
-   for (let i = 0; i < a1; i++) {
+   // merge logic (like your C++ code)
+   while (left <= mid && right <= high) {
       await waitforme(delay);
       beep.play();
-      element[low + i].style.background = 'red';
-      left[i] = element[low + i].style.height;
 
-
+      if (parseInt(element[left].style.height) <= parseInt(element[right].style.height)) {
+         temp.push({
+            height: element[left].style.height,
+            value: element[left].innerHTML
+         });
+         element[left].style.background = "red";
+         left++;
+      } else {
+         temp.push({
+            height: element[right].style.height,
+            value: element[right].innerHTML
+         });
+         element[right].style.background = "yellow";
+         right++;
+      }
    }
 
-
-   for (let i = 0; i < a2; i++) {
+   while (left <= mid) {
       await waitforme(delay);
       beep.play();
-      element[mid + 1 + i].style.background = 'yellow';
-      right[i] = element[mid + 1 + i].style.height;
+      temp.push({
+         height: element[left].style.height,
+         value: element[left].innerHTML
+      });
+      element[left].style.background = "red";
+      left++;
    }
-   await waitforme(delay);
 
-
-
-   let i = 0, j = 0, k = low;
-   while (i < a1 && j < a2) {
-      beep.play();
+   while (right <= high) {
       await waitforme(delay);
-      if (parseInt(left[i]) <= parseInt(right[j])) {
-         if ((a1 + a2) === element.length) {
-            element[k].style.background = 'rgb(0,255,0)';
-         }
-
-         else {
-            element[k].style.background = 'lightgreen';
-
-
-
-         }
-
-         element[k].style.height = left[i];
-
-         i++;
-         k++;
-
-      }
-
-      else {
-         if ((a1 + a2) === element.length) {
-            element[k].style.background = 'rgb(0,255,0)';
-         }
-         else {
-            element[k].style.background = 'lightgreen';
-         }
-
-         element[k].style.height = right[j];
-         j++;
-         k++;
-      }
-
-   }
-   while (i < a1) {
       beep.play();
-      await waitforme(delay);
-      if ((a1 + a2) === element.length) {
-         element[k].style.background = 'rgb(0,255,0)';
-      }
-      else {
-         element[k].style.background = 'lightgreen';
-
-      }
-      element[k].style.height = left[i];
-      i++;
-      k++;
+      temp.push({
+         height: element[right].style.height,
+         value: element[right].innerHTML
+      });
+      element[right].style.background = "yellow";
+      right++;
    }
 
-   while (j < a2) {
+   // copy back into original array
+   for (let i = low; i <= high; i++) {
+      await waitforme(delay);
       beep.play();
-      await waitforme(delay);
-      if ((a1 + a2) === element.length) {
-         element[k].style.background = 'rgb(0,255,0)';
-      }
-      else {
-         element[k].style.background = 'lightgreen';
 
-      }
+      element[i].style.height = temp[i - low].height;
+      element[i].innerHTML = temp[i - low].value;
 
-      element[k].style.height = right[j];
-      j++;
-      k++;
+      element[i].style.background =
+         (high - low + 1 === element.length) ? "rgb(0,255,0)" : "lightgreen";
    }
-
 }
-
