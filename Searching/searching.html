@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="searching.css">
     <link rel="stylesheet" href="prism.css">
+     <link rel="shortcut icon" href="logo1.png" type="image/x-icon">
     
     <link rel="shortcut icon" href="../sv-removebg-preview.png" type="image/x-icon">
     <title>Searching Visualizer</title>
@@ -37,7 +38,7 @@
                 <div class="sizespeed">
                     <div class="array_range">
                         <button id="size">Size : <span id="size_value"></span></button>
-                        <input type="range" id="size_slider" min="4" max="100" value="50">
+                        <input type="range" id="size_slider" min="4" max="100" value="20">
                     </div>
 
                     <div class="array_speed">
@@ -100,8 +101,7 @@
                     letter-spacing: 3px;">
                         <code class="language-c++">// C++ Program to implement linear search 
                             // algorithm iteratively
-                            #include <bits/stdc++.h>
-                            using namespace std;
+                         
                             
                             int linearSearch(vector<int> v, int key) {
                                   
@@ -119,23 +119,6 @@
                                   return -1;
                             }
                             
-                            int main() {
-                                vector<int> v = {1, 2, 3, 4, 5, 8, 9, 11};
-                              
-                                // Value to search
-                                  int key = 8;
-                            
-                                // Searching the key in the vector v
-                                  int i = linearSearch(v, key);
-                                  
-                                  // Checking if element is found or not
-                                if (i != -1)
-                                    cout << key << " Found at Position: " <<
-                                          i + 1;
-                                else
-                                    cout << key << " NOT found.";
-                                return 0;
-                            }
                                 </code>
                             </pre>
                 </div>
