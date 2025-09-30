@@ -53,40 +53,35 @@ function enableNewArrayBtn() {
 }
 
 
-
-
-
-
 output.innerHTML = slider.value
 
 
-// generate bars in default size 100
 // const body = document.querySelector('#mainbody')
+// generate bars in default size 20
 var arr = []
-for (let i = 1; i <= 64; i++) {
-    let temp = Math.floor(Math.random() * (350 - 20) + 20)
+for (let i = 1; i <= 20; i++) {
+    let temp = Math.floor(Math.random() * 101)  // 0 to 100
     arr.push(temp)
 }
-// creating div element for the bars
-for (let i = 0; i < 64; i++) {
+for (let i = 0; i < 20; i++) {
     let bar = document.createElement('div')
     bar.className = 'bars'
-    bar.style.height = `${arr[i]}px`
+    bar.style.height = `${arr[i]*4}px` // scale factor 10
     bar.innerHTML = `${arr[i]}`
-    bar.style.width = `4vw`;
+    bar.style.width = `${96 / 35}vw`;
     body.appendChild(bar)
 }
 
-
 // array size according to array size slider
-var arrayVal = 64;
+var arrayVal = 20;
+
 slider.oninput = function () {
     searchText.innerHTML = `Size Changed`
     output.innerHTML = this.value
     arrayVal = this.value
     arr = []
     for (let i = 1; i <= this.value; i++) {
-        let temp = Math.floor(Math.random() * (350 - 20) + 20)
+        let temp = Math.floor(Math.random() * 101)   // 0–100
         arr.push(temp)
     }
     while (body.firstChild) {
@@ -96,7 +91,7 @@ slider.oninput = function () {
         let div = document.createElement('div')
         div.className = 'bars'
         div.innerHTML = `${arr[i]}`
-        div.style.height = `${arr[i]}px`
+        div.style.height = `${arr[i]*4}px`
         div.style.width = `${(96 / this.value)}vw`
         body.appendChild(div)
     }
@@ -205,12 +200,4 @@ window.addEventListener('load', () => {
     // preloader.style.display = 'none'
 })
 
-
-
-
-
-
 const val = document.querySelector('#searchingVal')
-
-
-
