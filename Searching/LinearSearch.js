@@ -2,6 +2,8 @@ console.log('Linear Search')
 var findingAudio = new Audio('Finding.mp3')
 var findedAudio = new Audio('Finded.mp3')
 var mouseclick = new Audio('Mouseclick.mp3')
+
+
 var count = 0
 
 async function linearSearch(array, n, val) {
@@ -34,7 +36,14 @@ linear.addEventListener('click', async () => {
     console.log('Linear')
     mouseclick.play()
     const array1 = document.querySelectorAll('.bars')
-    // console.log(array1) provide nodelist
+    console.log(array1)
+
+      array1.forEach((bar) => {
+        bar.style.background = 'white'
+        bar.style.color = 'black'
+    })
+     count=0
+     
     let Array = []
     array1.forEach((element) => {
         Array.push(element)
@@ -53,7 +62,7 @@ linear.addEventListener('click', async () => {
         disableSizeSlider();
         disableNewArrayBtn();
         var ind = await linearSearch(Array, Array.length, parseInt(val))
-        // console.log(ind)
+        console.log(ind)
         const index = document.querySelector('.index')
         if (ind != -1) {
             searchText.innerHTML=`Searching Complete`
@@ -64,8 +73,8 @@ linear.addEventListener('click', async () => {
             index.innerHTML = `${val} is not present in the Array!!`
             findingAudio.pause()
         }
-        // enableSortingBtn();
-        // enableSizeSlider();
+        enableSortingBtn();
+        enableSizeSlider();
         enableNewArrayBtn();
     }
     else {
