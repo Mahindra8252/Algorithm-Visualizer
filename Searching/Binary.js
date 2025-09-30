@@ -1,13 +1,43 @@
 console.log('binary')
 var count = 0
+
+// Function to clear all colors and reset bars to default
+function clearColors(array) {
+    array.forEach((bar) => {
+        bar.style.background = 'white'
+        bar.style.color = 'black'
+    })
+}
+
+// Function to highlight the search region in blue
+function highlightRegion(array, low, high) {
+    for (let i = low; i <= high; i++) {
+        if (i < array.length) {
+            array[i].style.background = '#48cae4'  // Blue color for search region
+            array[i].style.color = 'black'
+        }
+    }
+}
+
 async function binarySearch(array, n, val) {
     let low = 0, high = n - 1;
+    
+    // Initially highlight the entire array as search region
+    highlightRegion(array, low, high);
+    await waitcount(delay);
+    
     while (low <= high) {
-        await waitcount(delay)
         let mid = Math.floor((low + high) / 2)
-        // console.log(mid)
-        // console.log(val)
+        console.log(mid)
+        console.log(val)
+        
+        // Highlight current mid element being checked
+        array[mid].style.background ='#fb8500'
+        array[mid].style.color = 'white'
+        await waitcount(delay)
+        
         if (array[mid].innerHTML == val) {
+            // Found the element
             array[mid].style.background = 'green'
             array[mid].style.color = '#fcfcfc'
             findedAudio.play()
@@ -18,27 +48,45 @@ async function binarySearch(array, n, val) {
             step.innerHTML = `${count}`
             return mid;
         }
-        // if val is greater than array[mid].. schrink the left part of the array
+        
+        // if val is greater than array[mid].. shrink the left part of the array
         if (val > array[mid].innerHTML) {
-            array[mid].style.background = 'red'
-            array[mid].style.color = 'white'
             findingAudio.play()
             count++
             low = mid + 1;
+            
+            // Clear all colors and highlight new search region (right side)
+            if (low <= high) {
+                await waitcount(delay);
+                clearColors(array);
+                highlightRegion(array, low, high);
+            } else {
+                clearColors(array);
+            }
         }
         else {
             high = mid - 1;
-            array[mid].style.background = 'red'
-            array[mid].style.color = 'white'
-            count++
             findingAudio.play()
+            count++
+            
+            // Clear all colors and highlight new search region (left side)
+            if (low <= high) {
+                await waitcount(delay);
+                clearColors(array);
+                highlightRegion(array, low, high);
+            } else {
+                clearColors(array);
+            }
         }
+        
+        await waitcount(delay)
     }
+    
     findingAudio.pause()
     return -1
 }
 
-
+//sorting before binary sort
 async function sorting(array) {
     array.sort((a, b) => {
         return a.innerHTML - b.innerHTML
@@ -65,39 +113,23 @@ async function descriptionText() {
 
     const code = document.querySelector('#code_java')
     // console.log(code.innerHTML)
-    code.innerHTML = `// C++ program for the implementation of Bubble sort
-#include <bits/stdc++.h>
-using namespace std;
+    code.innerHTML = `
 
-void bubbleSort(vector<int>& v) {
-    int n = v.size();
+int binarySearch(vector<int>& nums, int target) {
+    int n = nums.size(); //size of the array
+    int low = 0, high = n - 1;
 
-    // Outer loop that corresponds to the number of
-    // elements to be sorted
-    for (int i = 0; i < n - 1; i++) {
-
-        // Last i elements are already
-        // in place
-        for (int j = 0; j < n - i - 1; j++) {
-          
-              // Comparing adjacent elements
-            if (v[j] > v[j + 1])
-              
-                  // Swapping if in the wrong order
-                swap(v[j], v[j + 1]);
-        }
+    // Perform the steps:
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (nums[mid] == target) return mid;
+        else if (target > nums[mid]) low = mid + 1;
+        else high = mid - 1;
     }
+    return -1;
 }
 
-int main() {
-    vector<int> v = {5, 1, 4, 2, 8};
 
-    // Sorting the vector v
-    bubbleSort(v);
-    for (auto i : v)
-        cout << i << " ";
-    return 0;
-}
 `
     const time = document.querySelector('#time')
     time.innerHTML = `
@@ -116,8 +148,6 @@ space complexity is O(1).
 Two variables are required to keep track of the number 
 of elements that need to be checked... 
 Additional data is not necessary.`
-
-
 }
 
 const binary = document.querySelector('#binary_Search').addEventListener('click', async () => {
@@ -126,6 +156,12 @@ const binary = document.querySelector('#binary_Search').addEventListener('click'
     mouseclick.play()
     const array1 = document.querySelectorAll('.bars')
     // console.log(array1) provide nodelist
+
+    // Reset all bars to default color
+    clearColors(array1)
+
+    count=0 
+    
     let Array = []
     array1.forEach((element) => {
         Array.push(element)
@@ -160,7 +196,7 @@ const binary = document.querySelector('#binary_Search').addEventListener('click'
     else {
         alert('Pleae put Searching Value first!!😕😕')
     }
-    // enableSortingBtn();
-    // enableSizeSlider();
+    enableSortingBtn();
+    enableSizeSlider();
     enableNewArrayBtn();
 })
